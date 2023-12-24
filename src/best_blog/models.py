@@ -3,7 +3,7 @@ import datetime
 from django.db import models
 
 
-class Author(models.Model):
+class Author(models.Model): #автор
     name = models.CharField(
         max_length=300, verbose_name='Имя автора', help_text='Введите имя автора'
     )
