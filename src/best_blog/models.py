@@ -44,7 +44,12 @@ class Channel(models.Model):
                               verbose_name='Фото')
     bio = models.TextField(max_length=550,
                            verbose_name='Описание')
-    admin = models.ForeignKey(User, verbose_name='Админ канала')
+    admin = models.ForeignKey(User, on_delete=models.CASCADE,
+                              verbose_name='Админ канала')
+    slug = models.SlugField(max_length=50, unique=True, db_index=True,
+                            verbose_name='URL')
+    created = models.DateField(auto_now_add=True,
+                               verbose_name='Время создания')
 
     def __str__(self):
         return self.name_channel
@@ -116,8 +121,10 @@ class Like(models.Model):
 
 
 class Follower(models.Model):
-    channel = models.ForeignKey(Channel, verbose_name='Канал')
-    follower = models.ForeignKey(User, verbose_name='Подписчик')
+    channel = models.ForeignKey(Channel, on_delete=models.CASCADE,
+                                verbose_name='Канал')
+    follower = models.ForeignKey(User, on_delete=models.CASCADE,
+                                 verbose_name='Подписчик')
 
     def __str__(self):
         return f'{self.channel}, {self.follower}'
