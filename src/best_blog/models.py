@@ -77,8 +77,8 @@ class Post(models.Model):
                                    verbose_name='Время изменения')
     category = models.ForeignKey(Category, on_delete=models.CASCADE,
                                  verbose_name='Категория')
-    likes = models.ManyToManyField(User, related_name='liked_posts',
-                                   verbose_name='Количество лайков')
+    #likes = models.ManyToManyField(User, related_name='liked_posts',
+    #                               verbose_name='Количество лайков')
     views = models.PositiveIntegerField(default=0,
                                         verbose_name='Количество просмотров')
 

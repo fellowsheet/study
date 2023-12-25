@@ -51,7 +51,7 @@ class User(AbstractBaseUser):
                                verbose_name='Дата создания')
     date_of_birth = models.DateField(blank=False, null=True,  #как убрать null
                                      verbose_name='Дата рождения')
-    slug = models.SlugField(max_length=255, unique=True, db_index=True,
+    slug = models.SlugField(max_length=255, unique=False, db_index=True, #как включить unique
                             verbose_name='URL')
 
     objects = UserManager()
