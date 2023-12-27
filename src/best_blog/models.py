@@ -24,7 +24,7 @@ from accounts.models import User
 #         return f'{self.name} ({self.age})'
 
 class Category(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, verbose_name='Название категории')
     slug = models.SlugField(max_length=255, unique=True, db_index=True,
                             verbose_name='URL')
 
@@ -61,7 +61,7 @@ class Channel(models.Model):
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, verbose_name='Заголовок')
     slug = models.SlugField(max_length=300, unique=True, db_index=True,
                             verbose_name='URL')
     author = models.ForeignKey(User, on_delete=models.CASCADE,
@@ -92,12 +92,14 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    commentator = models.ForeignKey(User, on_delete=models.CASCADE)
+    commentator = models.ForeignKey(User, on_delete=models.CASCADE,
+                                    verbose_name='Комментатор')
     published = models.DateTimeField(auto_now_add=True,
                                      verbose_name='Время публикации')
     text_comment = models.TextField(max_length=550,
                                     verbose_name='Текст комментария')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE,
+                             verbose_name='Пост')
 
     def __str__(self):
         return f'{self.commentator}, {self.post}'
@@ -109,8 +111,10 @@ class Comment(models.Model):
 
 
 class Like(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE,
+                             verbose_name='Пост')
+    author = models.ForeignKey(User, on_delete=models.CASCADE,
+                               verbose_name='Пользователь')
 
     def __str__(self):
         return f'{self.post}, {self.author}'

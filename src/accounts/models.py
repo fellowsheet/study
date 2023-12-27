@@ -2,10 +2,6 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
 
 
-'''class User(AbstractBaseUser):
-    pass'''
-
-
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):
         if not email:
@@ -74,3 +70,7 @@ class User(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
