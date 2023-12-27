@@ -4,24 +4,37 @@ from django.db import models
 from accounts.models import User
 
 
-# class Author(models.Model): #автор
-#     name = models.CharField(
-#         max_length=300, verbose_name='Имя автора',
-#         help_text='Введите имя автора'
-#     )
-#     birth_date: datetime.date = models.DateField()
-#
-#     def get_age(self) -> int:
-#         return (datetime.date.today() - self.birth_date).days // 365
-#
-#     def set_age(self, age: int):
-#         self.birth_date = (
-#                 datetime.date.today() - datetime.timedelta(days=365 * age))
-#
-#     age = property(get_age, set_age)
-#
-#     def __str__(self):
-#         return f'{self.name} ({self.age})'
+class Author(models.Model): #автор
+    first_name = models.CharField(
+        max_length=50, blank=False, verbose_name='Имя',
+        help_text='Введите имя автора')
+    last_name = models.CharField(
+        max_length=100, blank=False, verbose_name='Фамилия',
+        help_text='Введите фамилию автора')
+    middle_name = models.CharField(
+        max_length=50, blank=True, verbose_name='Отчество',
+        help_text='Введите отчество автора')
+    avatar = models.ImageField(upload_to='photo/avatars/%Y/%m/%d/',
+                               blank=True, verbose_name='Аватар')
+    birth_date = models.DateField(blank=False, null=True,
+                                  verbose_name='Дата рождения')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,
+                             verbose_name='Пользователь')
+    slug = models.SlugField(max_length=255, unique=False, db_index=True, #как включить unique
+                            verbose_name='URL')
+
+    def get_age(self) -> int:
+        return (datetime.date.today() - self.birth_date).days // 365
+
+    def set_age(self, age: int):
+        self.birth_date = (
+                datetime.date.today() - datetime.timedelta(days=365 * age))
+
+    age = property(get_age, set_age)
+
+    def __str__(self):
+        return f'{self.name} ({self.age})'
+
 
 class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name='Название категории')
@@ -44,7 +57,7 @@ class Channel(models.Model):
                               verbose_name='Фото')
     bio = models.TextField(max_length=550,
                            verbose_name='Описание')
-    admin = models.ForeignKey(User, on_delete=models.CASCADE,
+    admin = models.ForeignKey(Author, on_delete=models.CASCADE,
                               verbose_name='Админ канала')
     slug = models.SlugField(max_length=50, unique=True, db_index=True,
                             verbose_name='URL')
@@ -64,7 +77,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     slug = models.SlugField(max_length=300, unique=True, db_index=True,
                             verbose_name='URL')
-    author = models.ForeignKey(User, on_delete=models.CASCADE,
+    author = models.ForeignKey(Author, on_delete=models.CASCADE,
                                verbose_name='Автор')
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE,
                                 verbose_name='Канал')
@@ -92,7 +105,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    commentator = models.ForeignKey(User, on_delete=models.CASCADE,
+    commentator = models.ForeignKey(Author, on_delete=models.CASCADE,
                                     verbose_name='Комментатор')
     published = models.DateTimeField(auto_now_add=True,
                                      verbose_name='Время публикации')
@@ -113,7 +126,7 @@ class Comment(models.Model):
 class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE,
                              verbose_name='Пост')
-    author = models.ForeignKey(User, on_delete=models.CASCADE,
+    author = models.ForeignKey(Author, on_delete=models.CASCADE,
                                verbose_name='Пользователь')
 
     def __str__(self):
@@ -127,7 +140,7 @@ class Like(models.Model):
 class Follower(models.Model):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE,
                                 verbose_name='Канал')
-    follower = models.ForeignKey(User, on_delete=models.CASCADE,
+    follower = models.ForeignKey(Author, on_delete=models.CASCADE,
                                  verbose_name='Подписчик')
 
     def __str__(self):
