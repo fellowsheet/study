@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'best_blog.apps.BestBlogConfig',
     'accounts.apps.AccountsConfig',
     'drf_spectacular',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
