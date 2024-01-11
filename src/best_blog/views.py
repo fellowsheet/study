@@ -9,9 +9,19 @@ from .serializers import AuthorSerializer
 
 
 class APIAuthor(APIView):
-    def get(self, request):
-        authors = Author.objects.all()
-        serializer = AuthorSerializer(authors, many=True)
+    def get(self, request, **kwargs):
+        try:
+            pk = kwargs['pk']
+            try:
+                author = Author.objects.get(pk=pk)
+                serializer = AuthorSerializer(author, many=False)
+            except:
+                return Response(
+                    f'Author with id {pk} does not exists',
+                    status=status.HTTP_404_NOT_FOUND)
+        except:
+            authors = Author.objects.all()
+            serializer = AuthorSerializer(authors, many=True)
         return Response(serializer.data)
 
     def post(self, request):
