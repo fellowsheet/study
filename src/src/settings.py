@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-63x865ds*76n4mxz)m7ca3&c09cky=k$qg+r%8a$wu-+-$mr^u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'pgdb', '172.25.0.2',
+                 '172.18.0.2']
 
 
 # Application definition
@@ -40,7 +41,8 @@ INSTALLED_APPS = [
     'best_blog.apps.BestBlogConfig',
     'accounts.apps.AccountsConfig',
     'drf_spectacular',
-    'rest_framework'
+    'rest_framework',
+    'django.contrib.postgres',
 ]
 
 MIDDLEWARE = [
@@ -77,13 +79,23 @@ WSGI_APPLICATION = 'src.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mywebsite',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': 'pgdb',  # localhost pgdb
+        'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -109,7 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'Europe\Moscow'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
