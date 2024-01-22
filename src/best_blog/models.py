@@ -131,6 +131,9 @@ class Like(models.Model):
         Post, on_delete=models.CASCADE, verbose_name='Пост')
     author = models.ForeignKey(
         Author, on_delete=models.CASCADE, verbose_name='Пользователь')
+    click_time = models.DateTimeField(
+        auto_now=True, verbose_name='Время проставления лайка')
+
 
     def __str__(self):
         return f'{self.post}, {self.author}'
