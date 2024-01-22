@@ -22,7 +22,7 @@ class Author(models.Model):
         User, on_delete=models.SET_NULL, null=True, verbose_name='Пользователь')
     slug = models.SlugField(
         max_length=255, unique=False, db_index=True, #как включить unique
-        verbose_name='URL')
+        verbose_name='Slug')
 
     def get_age(self) -> int:
         return (datetime.date.today() - self.birth_date).days // 365
@@ -44,7 +44,7 @@ class Author(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name='Название категории')
     slug = models.SlugField(
-        max_length=255, unique=True, db_index=True, verbose_name='URL')
+        max_length=255, unique=True, db_index=True, verbose_name='Slug')
 
     def __str__(self):
         return self.name
@@ -59,11 +59,12 @@ class Channel(models.Model):
     name_channel = models.CharField(
         max_length=100, verbose_name='Название канала')
     photo = models.ImageField(
-        upload_to='photo/channel/%Y/%m/%d/', verbose_name='Фото')
+        upload_to='photo/channel/%Y/%m/%d/', blank=True, verbose_name='Фото')
     bio = models.TextField(
         max_length=550, verbose_name='Описание')
     admin = models.ForeignKey(
-        Author, on_delete=models.CASCADE, verbose_name='Админ канала')
+        Author, on_delete=models.SET_NULL, null=True,
+        verbose_name='Админ канала')
     slug = models.SlugField(
         max_length=50, unique=True, db_index=True, verbose_name='URL')
     created = models.DateField(
@@ -83,18 +84,20 @@ class Post(models.Model):
     slug = models.SlugField(
         max_length=300, unique=True, db_index=True, verbose_name='URL')
     author = models.ForeignKey(
-        Author, on_delete=models.CASCADE, verbose_name='Автор')
+        Author, on_delete=models.DO_NOTHING, null=True, verbose_name='Автор')
     channel = models.ForeignKey(
-        Channel, on_delete=models.CASCADE, verbose_name='Канал')
+        Channel, on_delete=models.DO_NOTHING, null=True, verbose_name='Канал')
     content = models.TextField(blank=True, verbose_name='Текст поста')
     photo = models.ImageField(
-        upload_to='photo/post/%Y/%m/%d/', verbose_name='Фото')
+        upload_to='photo/post/%Y/%m/%d/', blank=True, null=True,
+        verbose_name='Фото')
     published = models.DateTimeField(
         auto_now_add=True, verbose_name='Время публикации')
     updated = models.DateTimeField(
         auto_now=True, verbose_name='Время изменения')
     category = models.ForeignKey(
-        Category, on_delete=models.CASCADE, verbose_name='Категория')
+        Category, on_delete=models.SET_NULL, null=True,
+        verbose_name='Категория')
     views = models.PositiveIntegerField(
         default=0, verbose_name='Количество просмотров')
 
@@ -109,7 +112,8 @@ class Post(models.Model):
 
 class Comment(models.Model):
     commentator = models.ForeignKey(
-        Author, on_delete=models.CASCADE, verbose_name='Комментатор')
+        Author, on_delete=models.SET_DEFAULT, default='Удаленный пользователь',
+        verbose_name='Комментатор')
     published = models.DateTimeField(
         auto_now_add=True, verbose_name='Время публикации')
     text_comment = models.TextField(
@@ -134,7 +138,6 @@ class Like(models.Model):
     click_time = models.DateTimeField(
         auto_now=True, verbose_name='Время проставления лайка')
 
-
     def __str__(self):
         return f'{self.post}, {self.author}'
 
@@ -145,7 +148,7 @@ class Like(models.Model):
 
 class Follower(models.Model):
     channel = models.ForeignKey(
-        Channel, on_delete=models.CASCADE, verbose_name='Канал')
+        Channel, on_delete=models.DO_NOTHING, verbose_name='Канал')
     follower = models.ForeignKey(
         Author, on_delete=models.CASCADE, verbose_name='Подписчик')
 
