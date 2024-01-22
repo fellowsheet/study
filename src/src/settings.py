@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-63x865ds*76n4mxz)m7ca3&c09cky=k$qg+r%8a$wu-+-$mr^u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'pgdb', '172.25.0.2',
-                 '172.18.0.2']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'pgdb']
 
 
 # Application definition
@@ -92,7 +91,7 @@ DATABASES = {
         'NAME': 'mywebsite',
         'USER': 'postgres',
         'PASSWORD': 'admin',
-        'HOST': 'pgdb',  # localhost pgdb
+        'HOST': 'localhost',  # localhost pgdb
         'PORT': '5432',
     }
 }
