@@ -1,12 +1,8 @@
-from django.shortcuts import render
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, \
     RetrieveUpdateDestroyAPIView
 
-from .models import Author, Post
-from .serializers import AuthorSerializer, PostSerializer
+from .models import Author, Post, Comment
+from .serializers import AuthorSerializer, PostSerializer, CommentSerializer
 
 
 class AuthorListGeneric(ListCreateAPIView):
@@ -27,3 +23,13 @@ class PostListGeneric(ListCreateAPIView):
 class PostDetailGeneric(RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+
+class CommentListGeneric(ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+
+class CommentDetailGeneric(RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
