@@ -1,33 +1,39 @@
-{% block content %}
 
-{% if form.errors %}
-  <p>Ваше имя пользователя и пароль не совпали. Пожалуйста, попробуйте еще раз. </p>
-{% endif %}
-
-<div class="row ">
-    <div class="col-md-8 mx-auto">
-        <h4 class="my-2">Авторизация</h4>
-    <form method="POST" action="">
-        {% csrf_token %}
-
-        <div class="form-group">
-        <table>
-
-            <tr>
-              <td>{{ form.username.label_tag }}</td>
-              <td>{{ form.username }}</td>
-            </tr>
-
-            <tr>
-              <td>{{ form.password.label_tag }}</td>
-              <td>{{ form.password }}</td>
-            </tr>
-        </table>
-
-        </div>
-        <button type="submit" class="btn btn-primary">Войти</button>
-    </form>
+<html>
+<head>
+    <title>Вход</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="loginForm" class="text-center" method="post">
+            {% csrf_token %}
+            <h1>Вход</h1>
+            <div class="form-group">
+                <input type="text" id="username" name="username" class="form-control" placeholder="Имя пользователя">
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Пароль">
+            </div>
+            <div class="error-message">
+                {% if form.errors %}
+                    <p>Неверное имя пользователя или пароль.</p>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Войти</button>
+        </form>
     </div>
-</div>
-
-{% endblock %}
+</body>
+</html>
