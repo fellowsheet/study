@@ -1,0 +1,45 @@
+
+
+
+{% block content %}
+
+{% if form.errors %}
+  <p>Ваше имя пользователя и пароль не совпали. Пожалуйста, попробуйте еще раз. </p>
+{% endif %}
+
+{% if next %}
+  {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+  {% else %}
+    <p>Please login to see this page.</p>
+  {% endif %}
+{% endif %}
+
+<div class="row ">
+    <div class="col-md-8 mx-auto">
+        <h4 class="my-2">Авторизация</h4>
+    <form method="POST" action="">
+        {% csrf_token %}
+
+        <div class="form-group">
+        <table>
+
+            <tr>
+              <td>{{ form.username.label_tag }}</td>
+              <td>{{ form.username }}</td>
+            </tr>
+
+            <tr>
+              <td>{{ form.password.label_tag }}</td>
+              <td>{{ form.password }}</td>
+            </tr>
+        </table>
+
+        </div>
+        <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
+    </div>
+</div>
+
+{% endblock %}
