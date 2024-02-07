@@ -10,13 +10,14 @@ window.addEventListener('DOMContentLoaded', getAllPosts);
 
 function postToHTML({id, title, content, author, published}) {
     const postList = document.getElementById('posts');
+    const publishedDate = new Date(published).toLocaleString();
 
     postList.insertAdjacentHTML('beforeend', `
         <article class="media content-section">
             <div class="media-body">
                 <div class="article-metadata" id="post${id}">
                     <a class="mr-2" href="#">${author}</a>
-                    <small class="text-muted">${published}</small>
+                    <small class="text-muted">${publishedDate}</small>
                 </div>
                     <h2><a class="article-title" href="#">${title}</a></h2>
                     <p class="article-content">${content}</p>
