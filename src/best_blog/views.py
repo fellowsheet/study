@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, \
     RetrieveUpdateDestroyAPIView
 
@@ -16,6 +17,7 @@ class AuthorDetailGeneric(RetrieveUpdateDestroyAPIView):
 
 
 class PostListGeneric(ListCreateAPIView):
+    template_name = "best_blog/posts_list.html"
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
@@ -33,3 +35,7 @@ class CommentListGeneric(ListCreateAPIView):
 class CommentDetailGeneric(RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+
+def home(request):
+    return render(request, 'best_blog/posts_list.html')
