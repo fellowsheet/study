@@ -38,4 +38,4 @@ class CommentDetailGeneric(RetrieveUpdateDestroyAPIView):
 
 
 def home(request):
-    return render(request, 'best_blog/posts_list.html')
+    return render(request, 'best_blog/base.html')
