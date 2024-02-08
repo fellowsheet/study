@@ -55,6 +55,39 @@ function authorToHTML({id, first_name, last_name, avatar, birth_date, slug}) {
     `);
 }
 
+
+async function getAllChannels() {
+    const res = await fetch('http://127.0.0.1:8000/channels/?limit=10');
+    const channels = await res.json();
+
+    console.log(channels);
+    channels.forEach(channel => channelToHTML(channel));
+}
+
+function channelToHTML({id, name_channel, photo, bio, slug}) {
+    const channelList = document.getElementById('content-block');
+
+    channelList.insertAdjacentHTML('beforeend', `
+        <div class="content-section" id="author{id}">
+            <div class="media">
+                <img class="rounded-circle account-img" src="${photo}">
+                <div class="media-body">
+                    <h4 class="account-heading">${name_channel}</h4>
+                    <p>${bio}</p>
+                    <p class="text-secondary">${slug}</p>
+                </div>
+            </div>
+        </div>
+    `);
+}
+
+window.addEventListener("click", function(e){
+    if (e.target.id=="all_channels"){
+        clear();
+        getAllChannels();
+    }
+})
+
 window.addEventListener("click", function(e){
     if (e.target.id=="all_authors"){
         clear();

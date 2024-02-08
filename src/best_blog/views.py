@@ -2,8 +2,9 @@ from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, \
     RetrieveUpdateDestroyAPIView
 
-from .models import Author, Post, Comment
-from .serializers import AuthorSerializer, PostSerializer, CommentSerializer
+from .models import Author, Post, Comment, Channel
+from .serializers import AuthorSerializer, PostSerializer, CommentSerializer, \
+    ChannelSerializer
 
 
 class AuthorListGeneric(ListCreateAPIView):
@@ -17,7 +18,6 @@ class AuthorDetailGeneric(RetrieveUpdateDestroyAPIView):
 
 
 class PostListGeneric(ListCreateAPIView):
-    template_name = "best_blog/posts_list.html"
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
@@ -35,6 +35,16 @@ class CommentListGeneric(ListCreateAPIView):
 class CommentDetailGeneric(RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+
+class ChannelListGeneric(ListCreateAPIView):
+    queryset = Channel.objects.all()
+    serializer_class = ChannelSerializer
+
+
+class ChannelDetailGeneric(RetrieveUpdateDestroyAPIView):
+    queryset = Channel.objects.all()
+    serializer_class = ChannelSerializer
 
 
 def home(request):
