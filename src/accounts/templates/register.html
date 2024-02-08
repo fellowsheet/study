@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %} Регистрация {% endblock %}
+{% block content %}
+
+<div class="row ">
+    <div class="col-md-8 mx-auto">
+        <h4 class="my-2">Регистрация нового пользователя</h4>
+        <form method="POST" action="">{% csrf_token %}
+            <div class="form-group">
+            {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Уже есть аккаунт?
+                <a class="ml-2" href="{% url 'login' %}">Вход</a>
+            </small>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -10,4 +10,3 @@ urlpatterns = [
     path('posts/<int:pk>/', PostDetailGeneric.as_view()),
     path('comments/', CommentListGeneric.as_view()),
     path('comments/<int:pk>/', CommentDetailGeneric.as_view()),
-]
