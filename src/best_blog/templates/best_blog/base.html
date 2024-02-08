@@ -33,12 +33,12 @@
             {% if user.is_authenticated %}
               <div class="navbar-nav">
                 <a class="nav-item nav-link" href="#">Профиль</a>
-                <a class="nav-item nav-link" href="#">Выход</a>
+                <a class="nav-item nav-link" href="{% url 'logout' %}">Выход</a>
               </div>
             {% else %}
               <div class="navbar-nav">
-                  <a class="nav-item nav-link" href="#">Вход</a>
-                <a class="nav-item nav-link" href="#">Регистрация</a>
+                  <a class="nav-item nav-link" href="{% url 'login' %}">Вход</a>
+                <a class="nav-item nav-link" href="{% url 'register' %}">Регистрация</a>
               </div>
             {% endif %}
 

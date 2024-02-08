@@ -12,7 +12,7 @@ def user_login(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect(reverse('schema'))  # заменить
+            return redirect('home-page')  # заменить
     else:
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
